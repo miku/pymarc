@@ -79,6 +79,10 @@ class Record(object):
             return fields[0]
         return None
 
+    def __setitem__(self, tag, value):
+        """ Set a tag to a data value. """
+        self[tag] = value
+
     def __iter__(self):
         self.__pos = 0
         return self
