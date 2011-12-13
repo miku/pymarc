@@ -138,6 +138,13 @@ class Record(object):
             return fields[0]
         return None
 
+    def __setitem__(self, tag, value):
+        """ Set a tag to a data value. """
+        fields = self.get_fields(tag)
+        field = fields[0]
+        # hack, since not all tags would be data
+        field.data = value
+
     def __iter__(self):
         self.__pos = 0
         return self
