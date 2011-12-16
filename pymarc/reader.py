@@ -105,8 +105,8 @@ class MARCReader(Reader):
                 self.file_handle.seek(int(first5) - 5, 1) # 1 == os.SEEK_CUR
                 _count += 1
             self.file_handle.seek(0)
-            self.record_count = _count
-        return self.record_count
+            self._record_count = _count
+        return self._record_count
             
 def map_records(f, *files):
     """
