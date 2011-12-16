@@ -88,6 +88,9 @@ class MARCReader(Reader):
                         utf8_handling=self.utf8_handling)
         return record 
 
+    def __len__(self):
+        return self.record_count
+
     @property
     def record_count(self):
         if self._record_count == None:
