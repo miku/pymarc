@@ -66,6 +66,7 @@ class MARCReader(Reader):
             self.file_handle = marc_target
         else: 
             self.file_handle = StringIO(marc_target)
+        self._record_count = None
 
     def next(self):
         """
@@ -87,6 +88,23 @@ class MARCReader(Reader):
                         utf8_handling=self.utf8_handling)
         return record 
 
+    @property
+    def record_count(self):
+        if self._record_count == None:
+            self.file_handle.seek(0)
+            _count = 0
+            while True:
+                first5 = self.file_handle.read(5)
+                if not first5:
+                    break
+                if len(first5) < 5:
+                    raise RecordLengthInvalid
+                self.file_handle.seek(int(first5) - 5, 1) # 1 == os.SEEK_CUR
+                _count += 1
+            self.file_handle.seek(0)
+            self.record_count = _count
+        return self.record_count
+            
 def map_records(f, *files):
     """
     Applies a given function to each record in a batch. You can
